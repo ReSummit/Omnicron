@@ -3,10 +3,8 @@ const router = express.Router();
 
 /* GET data listing. */
 router.get('/', function(req, res, next) {
-  console.log(req.body.username);
+  console.log(req);
   const info = {
-    username: req.params.username,
-    password: req.params.password,
     title: 'api',
     msg: 'Hello World'
   }
@@ -15,7 +13,6 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
   console.log(req);
-  
 });
 
 module.exports = router;
