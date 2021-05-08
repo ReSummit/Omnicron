@@ -1,0 +1,26 @@
+.logo {
+    width: 50px;
+}
+
+.header-block {
+    width: 200px;
+}
+
+.header-link {
+    padding: 1em 2em 1em 2em;
+    font-weight: normal;
+}
+
+.header-link::hover {
+    font-weight: bold;
+    text-decoration-line: underline;
+    text-size-adjust: 110%;
+    animation-duration: 500ms;
+}
+
+.header-contents {
+    width: 100%;
+    display: flex;
+    flex: auto;
+    flex-direction: row;
+}
