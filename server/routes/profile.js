@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+let Profile = require('../models/Profile.js');
 
 router.get('/', function(req, res, next) {
     // Grab data from MongoDB
@@ -12,5 +13,42 @@ router.get('/', function(req, res, next) {
     // depending on whether the user exists or not.
     res.status(200).json({ ret });
 });
+//Create Profile
+router.post('/add', function (req, res) {
+    if ( req.body && req.body.schedule && req.body.events ) {
+        const schedule = req.body.schedule;
+        const events = [];
+    
+        const newProfile = new Profile({
+            schedule,
+            events,
+        });
+    
+        newProfile.save()
+            .then(() => res.status(200).json({ status: "Profile Added" }))
+            .catch(err => res.status(400).json('Error: ' + err));
+    }
+    else {
+        res.status(400).json('Error: ' + err);
+    }
+});
 
+//Update Profile
+router.post('/update/:id', function (req, res) {
+    if( req.body && req.body.schedule && req.body.events){
+        Profile.findById(req.params.id)
+            .then(profile => {
+                profile.schedule = req.body.schedule;
+                profile.events = req.body.events;
+
+                profile.save()
+                    .then(() => res.status(200).json({ status: 'Exercise updated!' }))
+                    .catch(err => res.status(400).json('Error: ' + err));
+            })
+            .catch(err => res.status(400).json('Error: ' + err));
+    }
+    else{
+        res.status(400).json('Error: ' + err);
+    }
+});
 module.exports = router;
