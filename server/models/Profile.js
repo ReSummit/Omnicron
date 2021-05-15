@@ -1,6 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ProfileSchema = new Schema({
+    name: {
+      type: String,
+    },
     schedule: {
       type: [[Number, Number]],
       required: true

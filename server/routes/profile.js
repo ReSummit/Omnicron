@@ -15,11 +15,13 @@ router.get('/', function(req, res, next) {
 });
 //Create Profile
 router.post('/add', function (req, res) {
-    if ( req.body && req.body.schedule && req.body.events ) {
+    if ( req.body && req.body.name && req.body.schedule && req.body.events ) {
+        const name = req.body.name;
         const schedule = req.body.schedule;
         const events = [];
     
         const newProfile = new Profile({
+            name,
             schedule,
             events,
         });
@@ -35,9 +37,10 @@ router.post('/add', function (req, res) {
 
 //Update Profile
 router.post('/update/:id', function (req, res) {
-    if( req.body && req.body.schedule && req.body.events){
+    if( req.body && req.body.name && req.body.schedule && req.body.events){
         Profile.findById(req.params.id)
             .then(profile => {
+                profile.name = req.body.name;
                 profile.schedule = req.body.schedule;
                 profile.events = req.body.events;
 
@@ -52,3 +55,4 @@ router.post('/update/:id', function (req, res) {
     }
 });
 module.exports = router;
+

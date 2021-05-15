@@ -2,7 +2,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var EventSchema = new Schema(
 {
-  event_type: {
+  event_name: {
+    type: String,
+  },
+  repeating: {
     type: Boolean,
     required: true
   },
@@ -10,7 +13,7 @@ var EventSchema = new Schema(
     type: [{profile: String, confirmed: Boolean, host: Boolean}],
     required: true
   },
-  deliberation: {
+  time: {
     type: {start: Number, end: Number},
     required: true
   }, 
@@ -22,4 +25,4 @@ var EventSchema = new Schema(
 
 const Event = mongoose.model("Event", EventSchema);
 
-module.export = Event;
+module.exports = Event;
