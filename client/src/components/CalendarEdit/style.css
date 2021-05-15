@@ -1,0 +1,42 @@
+.calSelection {
+    background-color: blanchedalmond;
+}
+
+.calTable {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    padding: 2em;
+    left: 55em;
+    width: fit-content;
+    background-color: burlywood;
+}
+
+.calCol {
+    
+}
+
+.calCol.sep {
+
+}
+
+.calSlot {
+    background-color: dodgerblue;
+    width: 4em;
+    height: 1em;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+}
+
+.calSlot.selected {
+    background-color: #7df8f2e1;
+}
+
+.disable-text-selection{
+    -ms-user-select:none;
+    -moz-user-select:none;
+    -webkit-user-select:none;
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+     user-select:none;
+ }
