@@ -1,8 +1,12 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var EventSchema = new Schema(
-{
-  event_type: {
+{ 
+  event_name: {
+    type: String,
+    required: true
+  },
+  repeating: {
     type: Boolean,
     required: true
   },
@@ -10,7 +14,7 @@ var EventSchema = new Schema(
     type: [{profile: String, confirmed: Boolean, host: Boolean}],
     required: true
   },
-  deliberation: {
+  time: {
     type: {start: Number, end: Number},
     required: true
   }, 
