@@ -1,15 +1,15 @@
 .calSelection {
-    background-color: blanchedalmond;
-}
-
-.calTable {
     display: flex;
     flex-direction: row;
     position: relative;
     padding: 2em;
-    left: 55em;
+    left: 63%;
     width: fit-content;
     background-color: burlywood;
+}
+
+.calTable {
+    
 }
 
 .calCol {
@@ -18,6 +18,10 @@
 
 .calCol.sep {
 
+}
+
+.calCol:hover {
+    cursor:crosshair;
 }
 
 .calSlot {
