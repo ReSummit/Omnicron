@@ -71,7 +71,7 @@ class CalendarEdit extends React.Component {
     }
 
     onDragStart() {
-
+        
     }
 
     onDragEnd() {

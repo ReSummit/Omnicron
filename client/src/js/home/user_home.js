@@ -1,6 +1,7 @@
 import React from 'react';  
 import './user_home.css';
-import CalendarEdit from '../../components/CalendarEdit'
+import CalendarEdit from '../../components/CalendarEdit';
+import Header from '../../components/Header';
 
 function Home() {
   return (

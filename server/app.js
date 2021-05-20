@@ -3,6 +3,7 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
+// Routes
 const eventsRouter = require('./routes/events');
 const usersRouter = require('./routes/users');
 const apiRouter = require('./routes/api');
