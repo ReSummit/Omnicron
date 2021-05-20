@@ -2,7 +2,7 @@ import React from 'react';
 import './user_home.css';
 import CalendarEdit from '../../components/CalendarEdit'
 
-function Home() {
+const userHome = (props) => {
   return (
     <div>
       <h1>My Events</h1>
@@ -12,5 +12,4 @@ function Home() {
 }
 
 
-
-export default Home;
+export default userHome;

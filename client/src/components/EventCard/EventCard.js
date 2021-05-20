@@ -1,9 +1,13 @@
 import React from 'react';
+import './EventCard.css';
 
-function EventCard(props){
+const eventCard = (props) => {
     return(
         <div>
-            <h1>Name {props.name}</h1>
+            <ul class="event-details">
+                <li><h1>Event Name: {props.name}</h1></li>
+                <li><h1>Event Time: {props.time}</h1></li>
+            </ul>
         </div>
     );
 }
