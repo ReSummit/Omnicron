@@ -1,3 +1,0 @@
-[submodule "client/src/import/react-schedule-selector"]
-	path = client/src/import/react-schedule-selector
-	url = https://github.com/bibekg/react-schedule-selector
