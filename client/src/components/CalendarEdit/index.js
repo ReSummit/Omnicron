@@ -11,25 +11,34 @@ class CalendarSlot extends React.Component {
         };
     }
 
+    setSelect( selected ) {
+        this.setState({
+            selected: selected
+        });
+    }
+
     onMouseDown(e) {
+        this.props.startDrag();
         console.log("On");
         console.log(this.state.id);
         this.setState({
-            selected: !this.state.selected
+            selected: true
         });
     }
 
     onMouseUp(e) {
         console.log("Off");
         console.log(this.state.id);
+        this.setState({
+            selected: false
+        });
     }
 
     render() {
         let className = "calSlot disable-text-selection" + (this.state.selected ? " selected" : "");
         return(
             <div className={className} 
-                onMouseDown={(e) => this.onMouseDown(e)}
-                onMouseUp={(e) => this.onMouseUp(e)}>&nbsp;</div>
+                onMouseDown={(e) => this.onMouseDown(e)}>{this.state.id}</div>
         );
     }
 }
@@ -43,9 +52,10 @@ class CalendarEdit extends React.Component {
             viewOnly (bool) - Determines interactivity of schedule
             timeDiv (int) - Determines how many slices wanted (default is 2)
             dayList ([float]) - List of days to show
-            timeRange ([float, float]) - Determines range of time to display in UTC time (can be reversed)
+            timeRange ([int, int]) - Determines range of time to display in UTC time (can be reversed)
                                          In reversed case, emphasize switch from AM -> PM
             calObjs (CalSelector[][]) - Literally simplified 2D array representation of each element in the calendar
+            schedule ([int]) - Input of schedule from backend (if viewing)
      */ 
     constructor(props) {
         super(props);
@@ -70,33 +80,25 @@ class CalendarEdit extends React.Component {
         };
     }
 
+    // 
     onDragStart() {
         
     }
 
     onDragEnd() {
-
+        
     }
 
-    // displayCalendar() {
-    //     return(
-
-    //     );
-    // }
-
     render() {
-        let display = this.props.dayList.map((item, index) => {
+        let display = 
+        this.props.dayList.map((item, index) => {
             let endCalc = (Math.trunc(Math.abs(this.props.timeRange[1] - this.props.timeRange[0])) * this.state.timeDiv);
-            let thing = this.state.calObjs.slice(index * endCalc, index * endCalc + endCalc );
-            console.log(thing);
-            return(<div class="calCol">{thing}</div>);
+            let slice = this.state.calObjs.slice(index * endCalc, index * endCalc + endCalc );
+            return(<div class="calCol">{slice}</div>);
         })
-        console.log(display);
         return(
             <div class="calSelection">
-                <div class="calTable">
-                    {display}
-                </div>
+                {display}
             </div>
         );
     }
