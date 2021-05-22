@@ -4,27 +4,18 @@ import './App.css';
 
 import Home from './js/home/user_home.js';
 import Header from './components/Header';
-import EditProfile from './js/editProfile';
+import editProfile from './js/editProfile';
+
 
 function App() {
   return (
-    <>
-      <header>
-        <Header />
-      </header>
       <Router>
-        {/* <Switch> */}
-          {/* <Route exact path='/home' >
-            <Home />
-          </Route>
-          <Route exact path='/editProfile'>
-            <EditProfile />
-          </Route> */}
+        <Header />
+        <Switch>
           <Route path="/home" component={Home} />
-          <Route path="/editProfile" exact component={EditProfile} />
-        {/* </Switch> */}
+          <Route path="/editProfile" exact component={editProfile} />
+        </Switch>
       </Router>
-    </>
   );
 }
 
