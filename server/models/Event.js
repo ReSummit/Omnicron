@@ -1,26 +1,23 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var EventSchema = new Schema(
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const EventSchema = new Schema(
 {
-  event_name: {
-    type: String,
-  },
-  repeating: {
-    type: Boolean,
-    required: true
-  },
-  people: {
-    type: [{profile: String, confirmed: Boolean, host: Boolean}],
-    required: true
-  },
+  name: String,
+  repeating: Boolean,
+  people: [{
+    profile: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Profile"
+    },
+    confirmed: Boolean,
+    host: Boolean
+  }],
   time: {
-    type: {start: Number, end: Number},
-    required: true
+    start: Number,
+    end: Number
   }, 
-  decided: {
-    type: Boolean,
-    required: true
-  }
+  decided: Boolean
 });
 
 const Event = mongoose.model("Event", EventSchema);
