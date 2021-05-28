@@ -1,18 +1,18 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var ProfileSchema = new Schema({
-    name: {
-      type: String,
-    },
-    schedule: {
-      type: [[Number, Number]],
-      required: true
-    },
-    events: {
-        type: [{event_id: String, host: Boolean}],
-        required: true
-    }
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const ProfileSchema = new Schema({
+    name: String,
+    schedule: [[Number, Number]],
+    events: [{
+      event: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Event"
+      },
+      host: Boolean
+    }]
 });
 
 const Profile = mongoose.model("Profile", ProfileSchema);
+
 module.exports = Profile;

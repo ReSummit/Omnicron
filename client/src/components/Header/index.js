@@ -1,16 +1,16 @@
 import React from "react";
+
 import { Link } from "react-router-dom"
 import './style.css';
-import history from '../../history';
-
-class Header extends React.Component {
+import BrowserHistory from '../../history.js';
+export default class Header extends React.Component {
     constructor(props) {
         super(props);
     }
 
     redir = ( path ) => {
         if (path) {
-            history.push(path);
+            BrowserHistory.push(path);
         }
     }
 
@@ -18,7 +18,7 @@ class Header extends React.Component {
         // Logout procedure here
         // Logout function through auth
     }
-
+    state = { redirect: null };
     render() {
         return (
             <div class="header-block">
@@ -29,10 +29,10 @@ class Header extends React.Component {
                         <Link to="/home" class="header-link">Home</Link>
                         <Link to="/editProfile" class="header-link">Edit Profile</Link>
                         <a href="/home" class="header-link">Logout</a> {/* TEMP href */}
+
                     </div>
             </div>
         );
     }
 }
 
-export default Header;
