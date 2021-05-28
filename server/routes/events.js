@@ -1,4 +1,5 @@
 const express = require('express');
+const { db } = require('../models/Event.js');
 const router = express.Router();
 var Profile = require('../models/Profile');
 var Event = require('../models/Event');
@@ -59,4 +60,8 @@ router.post('/add', async function(req, res) {
 /*router.delete('/:event_id/delete', function(req, res, next) {
   //res.stat
 });*/
+router.delete('/:event_id/delete', function(req, res, next) {
+  db.collection.remove
+  res.send("Delete Request Called");
+});
 module.exports = router;

@@ -1,0 +1,13 @@
+.event-details {
+    display:inline;
+}
+/* 
+.timepicker
+    ".ant-picker-footer": {
+        display: "none",
+    },
+} */
+.timepick,
+.ant-calendar-footer {
+    display: none;
+}
