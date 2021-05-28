@@ -3,11 +3,10 @@ import ReactDOM from 'react-dom';
 import {Router} from 'react-router-dom';
 import './index.css';
 import App from './App';
-import history from "./history";
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <React.StrictMode history={history}>
+  <React.StrictMode>
     <App />
   </React.StrictMode>,
   document.getElementById('root')
