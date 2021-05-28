@@ -1,0 +1,8 @@
+.schedule-time { 
+    padding-right: 10px;
+}
+
+.schedule-time,
+.schedule-edit {
+    display: inline-block;
+}

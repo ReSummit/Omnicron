@@ -1,5 +1,6 @@
 import React from "react";
-import { BrowserRouter, Redirect, Link, Router } from "react-router-dom"
+
+import { Link } from "react-router-dom"
 import './style.css';
 import BrowserHistory from '../../history.js';
 export default class Header extends React.Component {
@@ -27,7 +28,8 @@ export default class Header extends React.Component {
                     <div class="header-contents">
                         <Link to="/home" class="header-link">Home</Link>
                         <Link to="/editProfile" class="header-link">Edit Profile</Link>
-                        <a class="header-link">Logout</a>
+                        <a href="/home" class="header-link">Logout</a> {/* TEMP href */}
+
                     </div>
             </div>
         );
