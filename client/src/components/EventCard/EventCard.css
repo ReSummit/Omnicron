@@ -1,3 +1,23 @@
-.event-details {
-    display:inline;
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 10;
+    overflow: hidden;
+    background-color: #d8c9c9;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+  }
+
+.card :hover{
+    background-color: #999494;
 }
+  

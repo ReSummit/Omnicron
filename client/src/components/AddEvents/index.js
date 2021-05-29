@@ -21,6 +21,9 @@ const tailLayout = {
 };
 
 const timeFormat = 'HH:mm';
+const rounded = Math.round(moment().minute() / 15) * 15;
+const roundedDown = Math.floor(moment().minute() / 15) * 15;
+const roundedUp = Math.ceil(moment().minute() / 15) * 15;
 
 const {RangePicker} = TimePicker;
 
@@ -29,7 +32,10 @@ class AddEvents extends React.Component {
         super();
         this.state = {
             showModal: false,
-            setSelectedTime: "00:00"
+            //beginTime: "00:00",
+            //endTime: "00:00"
+            beginTime: 0,
+            endTime: 0,
         };
         this.eventName = "";
         this.repeating = false;
@@ -53,11 +59,25 @@ class AddEvents extends React.Component {
     callAPI() {
         // Needs variable to handle profile and groups
         // Either entered manually or through the profiles page
-        fetch("http://localhost:5000/")
+        fetch("http://localhost:5000/add", {
+            method: "POST",
+
+            body: JSON.stringify({
+                eventName: this.eventName,
+                repeating: this.repeating,
+                people: this.people,
+                time: {
+                    start: this.state.beginTime,
+                    end: this.state.endTime
+                }, 
+                decided: this.decided
+            }),
+        })
     }
 
     onFinish = (values) => {
         console.log('Success:', values);
+        console.log(values)
         this.handleCloseModal();
       };
     
@@ -103,14 +123,20 @@ class AddEvents extends React.Component {
                     </Form.Item>
 
                     <Form.Item>
-                        <DatePicker popupClassName="timepicker" defaultValue={moment()}/>
-                        <RangePicker className="timepicker" defaultValue={[moment(), moment()]} 
+                        <DatePicker 
+                            popupClassName="timepicker" 
+                            defaultValue={moment()}
+                        />
+                        <RangePicker className="timepicker" defaultValue={[moment().minute(roundedUp).second(0), moment().minute(roundedUp).add(30, "minutes").second(0)]} format="HH:mm"
                             // Code to select and update time without pressing ok. UNFINISHED
-                            /*onSelect={(value) => {
-                                const timeString = moment(value).format("HH:mm");
-                                this.setState({setSelectedTime: timeString});
-                                console.log(timeString);
-                            }}*/
+                            // Default values only work if you open up and press okay
+                            onOk={(value) => {;;
+                                //This changes the times to string format 
+                                //this.setState({beginTime: moment(value[0]).format("HH:mm")});
+                                //this.setState({endTime: moment(value[1]).format("HH:mm")});
+                                this.setState({beginTime: value[0].valueOf()});
+                                this.setState({endTime: value[0].valueOf()});
+                            }}
                         format={timeFormat} minuteStep={15}
                         />
                     </Form.Item>

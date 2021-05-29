@@ -5,62 +5,23 @@ class CalendarSlot extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            locked: this.props.selectable,
-            dragging: false,
-            selected: false
+            locked: this.props.selectable
         };
     }
-
-    endDrag = () => {
-        this.setState({
-            dragging: false
-        });
-        this.props.endDrag( this.props.id );
-        document.removeEventListener(
-            "mouseup", this.endDrag
-        );
-    }
     
-    // 
-
-    onMouseDown(e) {
-        if ( !this.props.viewOnly ) {
-            this.props.startDrag( this.props.id );
-            this.setState({ 
-                dragging: true,
-                selected: this.props.selected
-            }); 
-
-            document.addEventListener(
-                "mouseup", this.endDrag                
-            ); 
-        }
-    }
-
+    // Only mouseOver is needed, send event to controller that this event was hovered over
     onMouseOver(e) {
-        if ( this.props.dragging ) {
-            console.log(this.props.id);
-            this.props.updateDrag( this.props.id );
-            document.addEventListener(
-                "mouseup", this.endDrag                
-            );  
-        }
+        this.props.alertMouseOver( this.props.id );
     }
 
     onMouseLeave(e) {
-        if ( this.props.dragging ) {
-            console.log(this.props.id);
-            document.removeEventListener(
-                "mouseup", this.endDrag
-            );
-        }
+        this.props.alertMouseLeave( this.props.id );
     }
 
     render() {
         let className = "calSlot disable-text-selection" + (this.props.selected ? " selected" : "");
         return(
             <div className={className} 
-                onMouseDown={(e) => this.onMouseDown(e)}
                 onMouseOver={(e) => this.onMouseOver(e)}
                 onMouseLeave={(e) => this.onMouseLeave(e)}>{this.props.id}</div>
         );
@@ -98,64 +59,28 @@ class CalendarEdit extends React.Component {
         }
 
         // Generate all elements in calendar selector
-        let calObjsGen = [];
         let numSegments = this.props.dayList.length * Math.trunc(Math.abs(this.props.timeRange[1] - this.props.timeRange[0])) * timeDiv;
-        let dragStatus = false;
         let selectArray = Array.apply(null, Array(numSegments)).map(() => { return false });
 
         this.state = { 
             selected: (this.props.schedule ? this.props.schedule : selectArray),
-            calObjs: calObjsGen,
             timeDiv: timeDiv,
+            mouseOverID: [],
             startDragId: 0,
             dragStartState: false,
-            dragging: dragStatus
-        };
-
-        for (let i = 0; i < numSegments; i++) {
-            calObjsGen.push(
-                <CalendarSlot id={i} 
-                              viewOnly={this.props.viewOnly} 
-                              dragging={this.state.dragging}
-                              startDrag={this.onDragStart} 
-                              endDrag={this.onDragEnd} 
-                              updateDrag={this.onDragUpdate}
-                              selected={this.state.selected[i]}/>
-            );
-        }
-        console.log(this.state.calObjs);
-    }
-
-    // 
-    onDragStart = ( id ) => {
-        let copySelected = [...this.state.selected];
-        console.log("start:", id);
-        copySelected[id] = !copySelected[id];
-
-        // this.setState( state => {
-        //     return {
-
-        //     };
-        // });
-
-        this.setState({
-            selected: copySelected,
-            startDragId: id,
-            dragStartState: copySelected[id],
-            dragging: true
-        });
-    }
-
-    onDragEnd = ( id ) => {
-        console.log("end:", id);
-        this.setState({
             dragging: false
-        });
+        };
     }
 
-    onDragUpdate = ( id ) => {
+    alertMouseOver = ( id ) => {
+        console.log(id);
+        let temp = this.state.mouseOverID;
+        let copySelected = this.state.selected;
+        temp.push(id);
+        
+        // Update element dragged over
+
         if ( this.state.dragging ) {
-            let copySelected = this.state.selected;
             let colLen = Math.trunc(Math.abs(this.props.timeRange[1] - this.props.timeRange[0])) * this.state.timeDiv;
             
             for (let i = 0; i < this.props.dayList.length; i++) {
@@ -167,34 +92,64 @@ class CalendarEdit extends React.Component {
                 }
             }
         } 
+        this.setState({
+            mouseOverID: temp, 
+            selected: copySelected
+        });
+    }
+
+    alertMouseLeave = ( id ) => {
+        console.log(id);
+        let temp = this.state.mouseOverID;
+        let index = temp.indexOf(id);
+        if (index > -1) {
+            temp.splice(index, 1);
+        }
+        this.setState({
+            mouseOverID: temp
+        });
+    }
+
+    startDrag = () => {
+        if ( !this.props.viewOnly ) {
+            let copySelected = this.state.selected;
+            copySelected[this.state.mouseOverID[0]] = !copySelected[this.state.mouseOverID[0]];
+            console.log(this.state.mouseOverID);
+            this.setState({
+                dragging: true,
+                selected: copySelected
+            });
+            document.addEventListener(
+                "mouseup", this.endDrag                
+            );  
+        }
+    }
+
+    endDrag = () => {
+        document.removeEventListener(
+            "mouseup", this.endDrag                
+        ); 
+        this.setState({
+            dragging: false
+        });
     }
 
     render() {
-        let timeDiv = this.props.timeDiv;
-        if ( this.props.timeDiv == null ) {
-            timeDiv = 2;
-        }
-
-        let numSegments = this.props.dayList.length * Math.trunc(Math.abs(this.props.timeRange[1] - this.props.timeRange[0])) * timeDiv;
-        console.log(Array.from(numSegments));
+        let numSegments = this.props.dayList.length * Math.trunc(Math.abs(this.props.timeRange[1] - this.props.timeRange[0])) * this.state.timeDiv;
         const calObjs = Array.apply(null, Array(numSegments)).map((item, i) => 
             <CalendarSlot id={i} 
-                                viewOnly={this.props.viewOnly} 
-                                dragging={this.state.dragging}
-                                startDrag={this.onDragStart} 
-                                endDrag={this.onDragEnd} 
-                                updateDrag={this.onDragUpdate}
-                                selected={this.state.selected[i]}/>
+                          viewOnly={this.props.viewOnly} 
+                          alertMouseOver={this.alertMouseOver}
+                          alertMouseLeave={this.alertMouseLeave}
+                          selected={this.state.selected[i]}/>
         );
-        console.log(calObjs);
         let display = 
             this.props.dayList.map((item, index) => {
-                let endCalc = (Math.trunc(Math.abs(this.props.timeRange[1] - this.props.timeRange[0])) * timeDiv);
-                console.log(endCalc);
+                let endCalc = numSegments / this.props.dayList.length;
                 let slice = calObjs.slice(index * endCalc, index * endCalc + endCalc );
-                console.log(slice);
 
-                return(<div class="calCol">{slice}</div>);
+                return(<div class="calCol"
+                            onMouseDown={this.startDrag}>{slice}</div>);
             });
 
         return(

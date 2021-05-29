@@ -12,14 +12,14 @@ router.get('/:event_id', function(req, res, next) {
 /* Create event and add to every profile */
 router.post('/add', async function(req, res) {
   if ( req.body && req.body.name && req.body.people && req.body.time) {
-    const event_name = req.body.name;
+    const name = req.body.name;
     const repeating = req.body.repeating;
     const people = req.body.people;
     const time =  req.body.time;
     const decided = req.body.decided;
 
     const newEvent = new Event({
-        event_name,
+        name,
         repeating,
         people,
         time,
