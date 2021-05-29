@@ -3,7 +3,12 @@ const router = express.Router();
 const Profile = require('../models/Profile.js');
 
 router.get('/:id', function(req, res, next) {
-    Profile.findById(req.params.id).populate("events").then(
+    Profile.findById(req.params.id)
+        .populate({path: 'events',
+            populate: {
+                path: 'event'
+            }
+        }).then(
         profile => {
             res.status(200).json(profile);
         }
@@ -14,14 +19,14 @@ router.post('/add', function (req, res) {
     if ( req.body && req.body.name && req.body.schedule && req.body.events ) {
         const name = req.body.name;
         const schedule = req.body.schedule;
-        const events = [];
+        const events = req.body.events;
     
         const newProfile = new Profile({
             name,
             schedule,
             events,
         });
-    
+        
         newProfile.save()
             .then(() => res.status(200).json({ status: "Profile Added" }))
             .catch(err => res.status(400).json('Error: ' + err));

@@ -22,13 +22,38 @@ export default class EditProfile extends Component {
 
     // TEST Right before page loads, this will load
     componentDidMount() {
-        this.setState({
-            name: 'test user',
-            schedule: [[1,2], [3,4], [5,6]],
-        }) 
+        let host = true;
+        const attendeeId = "60af0ae8b7a86c365cf1aaa4";
+        const hostId = "60af0a9db7a86c365cf1aaa3";
+        if (host) {
+            fetch(`http://profile/${hostId}`)
+                .then( response => response.json())
+                .then( data => {
+                    this.setState({
+                        name: data.name,
+                        schedule: data.schedule
+                    })
+                });
+        } else {
+            fetch(`http://profile/${attendeeId}`)
+                .then(response => response.json())
+                .then(data => {
+                    this.setState({
+                        name: data.name,
+                        schedule: data.schedule
+                    })
+                });
+        }
+
+        // console.log("Name: ", this.state.name, "Schedule: " , this.state.schedule);
+// TEST
+        // this.setState({
+        //     name: 'test user',
+        //     schedule: [[1,2], [3,4], [5,6]],
+        // }) 
 
         // GET data from Mongo (does not work)
-                    // fetch("http://localhost:5000/profile/60aedbb9f859e10820fbed41", { mode: 'no-cors'})
+                    // fetch("http://localhost:5000/profile/60aedbb9f859e10820fbed41", { mode: 'no-cors' }
                     //     .then(response => {
                     //         this.setState({ 
                     //             name: response.data.name,
