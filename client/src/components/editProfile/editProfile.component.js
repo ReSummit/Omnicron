@@ -79,6 +79,11 @@ export default class EditProfile extends Component {
                 name: this.state.name,
                 schedule: this.state.schedule
             }).then(res => console.log(res.data));
+        } else {
+            axios.post('http://localhost:5000/update/60af0ae8b7a86c365cf1aaa4', {
+                name: this.state.name,
+                schedule: this.state.schedule
+            }).then(res => console.log(res.data));
         }
 
         console.log("Print current profile", profile);
@@ -102,6 +107,7 @@ export default class EditProfile extends Component {
             clear_schedule.splice(0, clear_schedule.length)
             this.setState({ schedule: clear_schedule });
             console.log("Cleared Schedule!" + this.state.schedule);
+            document.querySelector('#schedule-list').setAttribute('id', 'hide-schedule');
         } else {
             console.log("Do not clear!");
         }
@@ -216,9 +222,9 @@ export default class EditProfile extends Component {
     render() {
         return ( 
         <div>
-            <h1>Edit Profile PAGE!</h1>
+            <h1>Edit Profile</h1>
                 <div className="form-group">
-                    <label>Name: </label>
+                    <label className="name">Name: </label>
                     {/* Contains drop down of users*/}
                     <input 
                         required
@@ -230,27 +236,27 @@ export default class EditProfile extends Component {
                 {/* Make a list of all schedule of user*/}
                 <div className="form-group">
                     <label className="schedule">Schedule (in hours): </label>
-                    <ul>
+                    <ul id="schedule-list">
                         {this.displaySchedule()}
                     </ul>
                     {/* Adding time slot */}
                     <div>
-                        <label for="add-startTime">Start Time: </label>
+                        <label id="add-label"for="add-startTime">Start Time: </label>
                         <input id="add-startTime" type="time" step="any"/>
-                        <label for="add-endTime">End Time: </label>
+                        <label id="add-label" for="add-endTime">End Time: </label>
                         <input id="add-endTime" type="time" step="any"/>
-                        <input type="submit" onClick={this.addToSchedule} value="Add Time Slot" className="btn btn-add" />
+                        <input id="add-time" type="submit" onClick={this.addToSchedule} value="Add Time Slot" className="btn btn-add" />
                     </div>
                     {/* Deleting time slot */}
                     <div>
-                        <label for="del-startTime">Start Time: </label>
+                        <label id="del-label" for="del-startTime">Start Time: </label>
                         <input id="del-startTime" type="time" step="any"/>
-                        <label for="del-endTime">End Time: </label>
+                        <label id="del-label" for="del-endTime">End Time: </label>
                         <input id="del-endTime" type="time" step="any"/>
-                        <input type="submit" onClick={this.deleteFromSchedule} value="Delete Time Slot" className="btn btn-delete" />
+                        <input id="delete-time" type="submit" onClick={this.deleteFromSchedule} value="Delete Time Slot" className="btn btn-delete" />
                     </div>
                     <div>
-                        <button type="button" onClick={this.onClearSchedule}>Clear Schedule</button>
+                        <button id="clear-all" type="button" onClick={this.onClearSchedule}>Clear Schedule</button>
                     </div>
                 </div>
                 <div>
