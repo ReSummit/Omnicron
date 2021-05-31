@@ -11,10 +11,10 @@ router.get('/:id', function(req, res, next) {
 });
 //Create Profile
 router.post('/add', function (req, res) {
-    if ( req.body && req.body.name && req.body.schedule && req.body.events ) {
+    // if ( req.body && req.body.name && req.body.schedule && req.body.events ) {
         const name = req.body.name;
         const schedule = req.body.schedule;
-        const events = [];
+        const events = req.body.events;
     
         const newProfile = new Profile({
             name,
@@ -25,15 +25,14 @@ router.post('/add', function (req, res) {
         newProfile.save()
             .then(() => res.status(200).json({ status: "Profile Added" }))
             .catch(err => res.status(400).json('Error: ' + err));
-    }
-    else {
-        res.status(400).json('Error: ' + err);
-    }
+    // }
+    // else {
+    //     res.status(400).json('Error: ' + err);
+    // }
 });
 
 //Update Profile
 router.post('/update/:id', function (req, res) {
-    if( req.body && req.body.name && req.body.schedule && req.body.events){
         Profile.findById(req.params.id)
             .then(profile => {
                 profile.name = req.body.name;
@@ -44,10 +43,6 @@ router.post('/update/:id', function (req, res) {
                     .catch(err => res.status(400).json('Error: ' + err));
             })
             .catch(err => res.status(400).json('Error: ' + err));
-    }
-    else{
-        res.status(400).json('Error: ' + err);
-    }
 });
 module.exports = router;
 

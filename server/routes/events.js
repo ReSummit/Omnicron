@@ -33,7 +33,7 @@ router.post('/add', async function(req, res) {
           person.events.push({
             event: newEvent._id,
             host: p.host
-          });
+           });
 
           person.save().then(() => res.status(200).json({ status: 'Exercise updated!' }));
         }

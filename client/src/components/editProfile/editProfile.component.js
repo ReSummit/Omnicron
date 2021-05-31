@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './editProfile.css';
-
+import axios from 'axios';
 export default class EditProfile extends Component {
     constructor(props) {
         super(props);
@@ -22,23 +22,38 @@ export default class EditProfile extends Component {
 
     // TEST Right before page loads, this will load
     componentDidMount() {
-        this.setState({
-            name: 'test user',
-            schedule: [[1,2], [3,4], [5,6]],
-        }) 
-
-        // GET data from Mongo (does not work)
-                    // fetch("http://localhost:5000/profile/60aedbb9f859e10820fbed41", { mode: 'no-cors'})
-                    //     .then(response => {
-                    //         this.setState({ 
-                    //             name: response.data.name,
-                    //             schedule: response.data.schedule 
-                    //         })
-                    //     })
-                    //     .catch((error) => {
-                    //         console.log(error);
-                    //     })
-        // EDIT schedule
+        // GET data from mongo
+        let host = true;
+        const attendeeId = "60af0ae8b7a86c365cf1aaa4";
+        const hostId = "60af0a9db7a86c365cf1aaa3";
+        if (host) {
+            // fetch("http://localhost:5000/profile/60af0a9db7a86c365cf1aaa3", { method: 'GET' })
+            //     .then(response => {
+            //         console.log(response.json());
+            //         if (response.data.length > 0) {
+            //             this.setState({
+            //                 name: response.data.name,
+            //                 schedule: response.data.schedule
+            //             });
+            //         }
+            //     })
+            axios.get(`http://localhost:5000/profile/${hostId}`)
+                .then(response => {
+                        this.setState({
+                            name: response.data.name,
+                            schedule: response.data.schedule
+                        })
+                });
+        } else {
+            fetch(`/profile/${attendeeId}`)
+                .then(response => response.json())
+                .then(data => {
+                    this.setState({
+                        name: data.name,
+                        schedule: data.schedule
+                    })
+                });
+        }
     }
 
     // Change name
@@ -59,8 +74,14 @@ export default class EditProfile extends Component {
             name: this.state.name,
             schedule: this.state.schedule,
         }
+        if(this.state.name === 'Host'){
+            axios.post('http://localhost:5000/update/60af0a9db7a86c365cf1aaa3', {
+                name: this.state.name,
+                schedule: this.state.schedule
+            }).then(res => console.log(res.data));
+        }
 
-        console.log("Print current profiel", profile);
+        console.log("Print current profile", profile);
 
         // take user back to home page
         if(window.confirm("Setting saved! Go to home page?")){
@@ -110,7 +131,7 @@ export default class EditProfile extends Component {
             alert("End time must be past start time!");
         // GET input and PUT in schedule
         } else if (first < second){
-            let validTime = false;
+            let validTime = true;
             // CHECK if valid time
             validTime = this.state.schedule.map((time) =>{
                 let scheduleFrame = range(time[0],time[1]);
@@ -125,7 +146,7 @@ export default class EditProfile extends Component {
                 return false;
             })
             // if valid Time
-            if(!validTime){
+            if(validTime){
                 let something = [];
                 something[0] = first;
                 something[1] = second;
@@ -196,8 +217,6 @@ export default class EditProfile extends Component {
         return ( 
         <div>
             <h1>Edit Profile PAGE!</h1>
-            {/* Calling onSubmit to sumit form*/}
-            <form onSubmit={this.onSubmit}>
                 <div className="form-group">
                     <label>Name: </label>
                     {/* Contains drop down of users*/}
@@ -217,17 +236,17 @@ export default class EditProfile extends Component {
                     {/* Adding time slot */}
                     <div>
                         <label for="add-startTime">Start Time: </label>
-                        <input id="add-startTime" type="time" step="3600000"/>
+                        <input id="add-startTime" type="time" step="any"/>
                         <label for="add-endTime">End Time: </label>
-                        <input id="add-endTime" type="time" step="3600000"/>
+                        <input id="add-endTime" type="time" step="any"/>
                         <input type="submit" onClick={this.addToSchedule} value="Add Time Slot" className="btn btn-add" />
                     </div>
                     {/* Deleting time slot */}
                     <div>
                         <label for="del-startTime">Start Time: </label>
-                        <input id="del-startTime" type="time" step="3600000"/>
+                        <input id="del-startTime" type="time" step="any"/>
                         <label for="del-endTime">End Time: </label>
-                        <input id="del-endTime" type="time" step="3600000"/>
+                        <input id="del-endTime" type="time" step="any"/>
                         <input type="submit" onClick={this.deleteFromSchedule} value="Delete Time Slot" className="btn btn-delete" />
                     </div>
                     <div>
@@ -235,9 +254,8 @@ export default class EditProfile extends Component {
                     </div>
                 </div>
                 <div>
-                    <input type="submit" value="Confirm Edit" className="btn btn-confirm"/>
+                    <input onClick={this.onSubmit} type="submit" value="Confirm Edit" className="btn btn-confirm"/>
                 </div>
-            </form>
         </div>
         )
     }
