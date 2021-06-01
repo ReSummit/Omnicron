@@ -1,6 +1,8 @@
 import React from 'react';
 import './EventCard.css';
-
+import 'antd/dist/antd.css';
+import { Form, Input, Button, Checkbox, DatePicker, TimePicker } from 'antd';
+import moment from 'moment';
 export default class EventCard extends React.Component {
 
     render() {
@@ -18,13 +20,10 @@ export default class EventCard extends React.Component {
         }
         return(
             <div class="card">
-                <div class="vl"></div>
-                <ul>
-                    <li><h1>{name}</h1></li>
-                    <li><a>Event Time: {this.props.time.start} : {this.props.time.end}</a></li>
-                    <li><a>{repeat}</a></li>
-                    <li><a>Host: {String(this.props.host)}</a></li>
-                </ul>
+                <h1>{name}</h1>
+                <a>Event Time: {moment(start).format("hh:mm a")} : {moment(end).format("hh:mm a")}</a>
+                <a>{repeat}</a> 
+                <a>Host: {String(this.props.host)}</a>
             </div>
         );
     }

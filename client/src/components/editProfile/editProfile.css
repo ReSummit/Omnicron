@@ -1,21 +1,37 @@
 
+.editProfComponent {
+    display: flex;
+    flex-direction: column;
+}
 .form-group {
     border: 1px solid black;
     margin-bottom: 10px;
     padding: 10px;
-    width: 50%;
 }
-
+.form-control {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+}
 .name,
 #add-label,
 #del-label{
     padding:10px;
     font-weight:700;
 }
+
 .schedule{
     margin-bottom: 10px;
     font-weight: 700;
     text-decoration: underline solid rgb(68, 68, 68);
+}
+
+#li-ele{
+    border: 1px solid burlywood;
+    border-radius: 5px;
+    width: 70%;
+    padding: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 10px;
 }
 
 #schedule-list {
@@ -29,6 +45,37 @@
 #delete-time {
     margin-left: 20px;
 }
+
+#del-startTime,
+#del-endTime,
+#add-startTime,
+#add-endTime {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.btn-add,
+.btn-delete{
+    background-color: rgb(70, 243, 70);
+    border-radius: 5px;
+}
+
+.btn-add:hover,
+.btn-delete:hover,
+#clear-all:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
 #clear-all{
     margin-top: 10px;
+    background-color: rgb(246, 31, 31);
+    border-radius: 5px;
+}
+
+.btn-confirm{
+    width: 250px;
+    height: 50px;
+    border-radius: 5px;
+    position: relative;
 }

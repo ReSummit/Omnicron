@@ -1,0 +1,9 @@
+.profContainer {
+    display: flex;
+    position: relative;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex: 3em 3em 100%;
+    padding-top: 2rem;
+}

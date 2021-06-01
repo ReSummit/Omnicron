@@ -1,6 +1,23 @@
 .event-details {
     display:inline;
 }
+/* .Modal {
+    position: absolute
+    top: '35%';
+    left: '50%';
+    right: 'auto';
+    bottom: 'auto';
+    background-color: papayawhip;
+  }
+
+  .Overlay {
+    position: absolute;
+    top: '35%';
+    left: '50%';
+    right: 'auto';
+    bottom: 'auto';
+    background-color: rebeccapurple;
+  } */
 /* 
 .timepicker
     ".ant-picker-footer": {

@@ -1,36 +1,31 @@
 .card {
+  display: flex;
   margin-right: -30%;
-  padding: 10;
+  padding: 2rem;
   font-weight: normal;
-  margin: 2;
+  margin: 2rem;
   outline: black;
   border-radius: 5em;
   background-color: honeydew;
+  flex: 1 1 10%;
 }
 
-.card > ul{
-  list-style-type: none;
-  overflow: hidden;
+.card > h1 {
+  text-align: left;
+  align-self: center;
+  border-right: 1px solid black;
+  padding: 1rem;
+  width: 15rem;
+  text-overflow: ellipsis;
 }
 
-li > h1{
+.card > a {
   display: block;
   text-align: left;
-  padding: 16px;
-  margin-top: 5%;
+  padding: 1rem;
 }
 
-li {
-  float: left;
-}
-  
-li > a {
-  display: block;
-  text-align: left;
-  padding: 16px;
-}
-
-.card :hover{
+.card:hover {
   background-color: rgb(207, 219, 207);
   border-radius: 5em;
 }

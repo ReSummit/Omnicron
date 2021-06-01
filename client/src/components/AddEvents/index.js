@@ -1,7 +1,7 @@
 import React, {useState, updateTime} from 'react';
-import Modal from 'react-modal';
-import 'antd/dist/antd.css';
-import { Form, Input, Button, Checkbox, DatePicker, TimePicker } from 'antd';
+import ReactModal from 'react-modal';
+//import 'antd/dist/antd.css';
+import { Form, Input, Button, Space, Checkbox, DatePicker, TimePicker } from 'antd';
 import moment from 'moment';
 import './AddEvents.css';
 import Title from 'antd/lib/skeleton/Title';
@@ -62,7 +62,7 @@ class AddEvents extends React.Component {
         // Either entered manually or through the profiles page
         fetch("http://localhost:5000/events/add", {
             method: "POST",
-                
+            headers: { 'Content-Type': 'application/json' }, 
             body: JSON.stringify({
                 name: this.eventName,
                 repeating: this.repeating,
@@ -112,7 +112,13 @@ class AddEvents extends React.Component {
         return(
             <div>
             <button onClick={this.handleOpenModal}>Trigger Modal</button>
-            <Modal isOpen={this.state.showModal} contentLabel="Minimal Modal Example" onRequestClose={this.handleCloseModal}>
+            <ReactModal 
+                isOpen={this.state.showModal} 
+                ontentLabel="Minimal Modal Example" 
+                onRequestClose={this.handleCloseModal} 
+                // className="Modal"
+                // overlayClassName="Overlay"
+            >
                 <Form
                     {...layout}
                     name="basic"
@@ -163,12 +169,17 @@ class AddEvents extends React.Component {
                     </Form.Item>
 
                     <Form.Item {...tailLayout}>
-                        <Button type="primary" htmlType="submit">
-                        Submit 
-                        </Button>
-                    </Form.Item>
+                        <Space>
+                            <Button type="primary" htmlType="submit">
+                            Submit 
+                            </Button>
+                            <Button type="primary" onClick={this.handleCloseModal} style={{ background: "white", color: "#1890FF"}}>
+                            Close
+                            </Button>
+                        </Space>
+                    </Form.Item>    
                     </Form>
-            </Modal>
+            </ReactModal>
             </div>
         );
     }
