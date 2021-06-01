@@ -1,7 +1,6 @@
 import React, {useState, updateTime} from 'react';
-import ReactModal from 'react-modal';
 //import 'antd/dist/antd.css';
-import { Form, Input, Button, Space, Checkbox, DatePicker, TimePicker } from 'antd';
+import { Modal, Form, Input, Button, Space, Checkbox, DatePicker, TimePicker } from 'antd';
 import moment from 'moment';
 import './AddEvents.css';
 import Title from 'antd/lib/skeleton/Title';
@@ -21,12 +20,12 @@ const tailLayout = {
     },
 };
 
-const timeFormat = 'HH:mm';
+const timeFormat = 'MMMM Do h:mm a';
 const rounded = Math.round(moment().minute() / 15) * 15;
 const roundedDown = Math.floor(moment().minute() / 15) * 15;
 const roundedUp = Math.ceil(moment().minute() / 15) * 15;
 
-const {RangePicker} = TimePicker;
+const { RangePicker } = DatePicker;
 
 class AddEvents extends React.Component {
     constructor () {
@@ -112,15 +111,17 @@ class AddEvents extends React.Component {
         return(
             <div>
             <button onClick={this.handleOpenModal}>Trigger Modal</button>
-            <ReactModal 
-                isOpen={this.state.showModal} 
-                ontentLabel="Minimal Modal Example" 
-                onRequestClose={this.handleCloseModal} 
-                // className="Modal"
-                // overlayClassName="Overlay"
+            <Modal
+                visible={this.state.showModal} 
+                okText="Submit"
+                okButtonProps={{form: "form", htmlType: "submit"}}
+                cancelButtonProps={{style:{ background: "white", color: "#1890FF"}}}
+                onCancel={this.handleCloseModal}
+                width={700}
             >
                 <Form
                     {...layout}
+                    id = "form"
                     name="basic"
                     initialValues={{
                         repeat: false,
@@ -143,12 +144,22 @@ class AddEvents extends React.Component {
                     </Form.Item>
 
                     <Form.Item name="date">
-                        <DatePicker 
-                            popupClassName="timepicker" 
-                            defaultValue={moment()}
-                        />
                         {/* FOR NOW CHANGE END TIME FIRST */}
-                        <RangePicker className="timepicker" defaultValue={[moment().minute(roundedUp).second(0), moment().minute(roundedUp).add(30, "minutes").second(0)]} format="HH:mm"
+                        <RangePicker
+                            showTime={{ format: 'HH:mm' }}
+                            use12Hours
+                            className="timepicker"
+                            defaultValue={[moment().minute(roundedUp).second(0), moment().minute(roundedUp).add(30, "minutes").second(0)]}
+                            onOk={(value) => {;;
+                                //This changes the times to string format 
+                                //this.setState({beginTime: moment(value[0]).format("HH:mm")});
+                                //this.setState({endTime: moment(value[1]).format("HH:mm")});
+                                this.setState({beginTime: value[0].valueOf()});
+                                this.setState({endTime: value[1].valueOf()});
+                            }}
+                            format={timeFormat} minuteStep={15}
+                        />
+                        {/* <RangePicker className="timepicker" defaultValue={[moment().minute(roundedUp).second(0), moment().minute(roundedUp).add(30, "minutes").second(0)]} format="MM-DD HH:mm"
                             // Code to select and update time without pressing ok. UNFINISHED
                             // Default values only work if you open up and press okay
                             // Changing start time to a bigger value than end time causes end time to be replaced with the new value instead of start time changing
@@ -162,24 +173,24 @@ class AddEvents extends React.Component {
                                 this.setState({endTime: value[1].valueOf()});
                             }}
                             format={timeFormat} minuteStep={15}
-                        />
+                        /> */}
                     </Form.Item>
                     <Form.Item {...tailLayout} name="repeat" valuePropName="checked">
                         <Checkbox>Repeat</Checkbox>
                     </Form.Item>
 
-                    <Form.Item {...tailLayout}>
+                    {/* <Form.Item {...tailLayout}>
                         <Space>
-                            <Button type="primary" htmlType="submit">
-                            Submit 
-                            </Button>
                             <Button type="primary" onClick={this.handleCloseModal} style={{ background: "white", color: "#1890FF"}}>
                             Close
                             </Button>
+                            <Button type="primary" htmlType="submit">
+                            Submit 
+                            </Button>
                         </Space>
-                    </Form.Item>    
+                    </Form.Item>     */}
                     </Form>
-            </ReactModal>
+            </Modal>
             </div>
         );
     }

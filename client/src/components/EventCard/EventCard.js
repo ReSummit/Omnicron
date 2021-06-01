@@ -21,7 +21,7 @@ export default class EventCard extends React.Component {
         return(
             <div class="card">
                 <h1>{name}</h1>
-                <a>Event Time: {moment(start).format("hh:mm a")} : {moment(end).format("hh:mm a")}</a>
+                <a>Event Time: {moment(start).format("MMMM Do h:mm a")} : {moment(end).format("MMMM Do h:mm a")}</a>
                 <a>{repeat}</a> 
                 <a>Host: {String(this.props.host)}</a>
             </div>
