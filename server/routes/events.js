@@ -17,7 +17,7 @@ router.post('/add', async function(req, res) {
     const people = req.body.people;
     const time =  req.body.time;
     const decided = req.body.decided;
-
+  
     const newEvent = new Event({
         name,
         repeating,

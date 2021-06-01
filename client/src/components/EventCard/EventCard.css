@@ -1,23 +1,46 @@
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 10;
-    overflow: hidden;
-    background-color: #d8c9c9;
-  }
+.card {
+  margin-right: -30%;
+  padding: 10;
+  font-weight: normal;
+  margin: 2;
+  outline: black;
+  border-radius: 5em;
+  background-color: honeydew;
+}
+
+.card > ul{
+  list-style-type: none;
+  overflow: hidden;
+}
+
+li > h1{
+  display: block;
+  text-align: left;
+  padding: 16px;
+  margin-top: 5%;
+}
+
+li {
+  float: left;
+}
   
-  li {
-    float: left;
-  }
-  
-  li a {
-    display: block;
-    text-align: center;
-    padding: 16px;
-    text-decoration: none;
-  }
+li > a {
+  display: block;
+  text-align: left;
+  padding: 16px;
+}
 
 .card :hover{
-    background-color: #999494;
+  background-color: rgb(207, 219, 207);
+  border-radius: 5em;
 }
+
+.vl {
+  position: absolute;
+  margin-top: 1.5%;
+  margin-left: 45%;
+  border-left: 3px solid rgb(0, 0, 0);
+  height: 0.8in;
+}
+
   

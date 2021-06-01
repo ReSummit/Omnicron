@@ -1,27 +1,34 @@
-.split {
-    height: 120%;
-    width: 80%;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    overflow-x: hidden;
-    padding-top: 20px;
-  }
-  
   /* Control the left side */
   .left {
-    left: 0;
+    position: absolute;
+    left: 25%;
+    width: 100%;
+    top: 65%;
   }
-  
+
+  .event-list {
+    position: absolute;
+    transform: translate(-50%, -50%);
+  }
+
+  .event-list > h1{
+    position: absolute;
+    padding-bottom: 15%;
+    transform: translate(10%, -50%);
+  }
+
   /* Control the right side */
   .right {
+    position: absolute;
     right: 0;
+    width: 80%;
+    top: 65%
   }
   
   /* If you want the content centered horizontally and vertically */
   .centered {
     position: absolute;
-    top: 50%;
     left: 50%;
+    text-align: center;
     transform: translate(-50%, -50%);
   }

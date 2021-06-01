@@ -8,14 +8,18 @@ export default class HomePage extends React.Component{
   constructor(props) {
     super(props);
     this.state = { 
-      eventList: [] 
+      name: "",
+      eventList: []
     };
   }
   
   callAPI() {
     fetch("http://localhost:5000/profile/60b176f28ae12e6144722883")
       .then(res => res.json())
-      .then(profile => this.setState({ eventList: profile.events}));
+      .then(profile => this.setState({ 
+        name: profile.name,
+        eventList: profile.events
+      }));
   }
 
   componentDidMount() {
@@ -30,12 +34,12 @@ export default class HomePage extends React.Component{
       var obj = this.state.eventList[i];
       events.push(<EventCard name={obj.event.name} time={obj.event.time} repeating={obj.event.repeating} host={obj.host}/>)
     }
-
+    
     return (
       <div>
         <div class="split left">
-          <div class="centered">
-            <h1>My Events</h1>
+          <div class="event-list">
+            <h1>{this.state.name}'s Events</h1>
             <p>{events}</p>
           </div>
         </div>
