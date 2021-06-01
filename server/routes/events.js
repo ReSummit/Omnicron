@@ -1,4 +1,5 @@
 const express = require('express');
+const { db } = require('../models/Event.js');
 const router = express.Router();
 var Profile = require('../models/Profile');
 var Event = require('../models/Event');
@@ -11,14 +12,14 @@ router.get('/:event_id', function(req, res, next) {
 /* Create event and add to every profile */
 router.post('/add', async function(req, res) {
   if ( req.body && req.body.name && req.body.people && req.body.time) {
-    const event_name = req.body.name;
+    const name = req.body.name;
     const repeating = req.body.repeating;
     const people = req.body.people;
     const time =  req.body.time;
     const decided = req.body.decided;
 
     const newEvent = new Event({
-        event_name,
+        name,
         repeating,
         people,
         time,
@@ -59,4 +60,8 @@ router.post('/add', async function(req, res) {
 /*router.delete('/:event_id/delete', function(req, res, next) {
   //res.stat
 });*/
+router.delete('/:event_id/delete', function(req, res, next) {
+  db.collection.remove
+  res.send("Delete Request Called");
+});
 module.exports = router;

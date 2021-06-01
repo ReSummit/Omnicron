@@ -5,6 +5,7 @@ import './App.css';
 import Home from './js/home/user_home.js';
 import Header from './components/Header';
 import editProfile from './js/editProfile';
+import edit from './js/edit';
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Switch>
           <Route path="/home" component={Home} />
           <Route path="/editProfile" exact component={editProfile} />
+          <Route path="/edit" component={edit}/>
         </Switch>
       </Router>
   );
