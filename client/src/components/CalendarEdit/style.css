@@ -1,20 +1,14 @@
 .calSelection {
     display: flex;
     flex-direction: row;
-    position: relative;
     padding: 1rem;
-    left: 63%;
     width: fit-content;
     background-color: burlywood;
     border-radius: 1rem;
 }
 
-.calTable {
-    
-}
-
 .calCol {
-    
+    padding: 0.5rem;
 }
 
 .calCol.sep {
@@ -29,8 +23,13 @@
     background-color: dodgerblue;
     width: 4.1rem;
     height: 1.3rem;
-    border-top: 1px solid black;
     border-left: 1px solid black;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.calSlot.bottom {
+    border-bottom: 1px solid black;
 }
 
 .calSlot.selected {
