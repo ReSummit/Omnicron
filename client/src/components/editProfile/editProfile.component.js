@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './editProfile.css';
+import axios from 'axios';
 
 export default class EditProfile extends Component {
     constructor(props) {
@@ -20,57 +21,37 @@ export default class EditProfile extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    // TEST Right before page loads, this will load
+    // Right before page loads, this will load
     componentDidMount() {
+        // GET data from mongo
         let host = true;
         const attendeeId = "60af0ae8b7a86c365cf1aaa4";
         const hostId = "60af0a9db7a86c365cf1aaa3";
         if (host) {
-            fetch(`http://profile/${hostId}`)
-                .then( response => response.json())
-                .then( data => {
+            fetch(`http://localhost:5000/profile/${hostId}`, { method: 'GET' } )
+                .then(response =>  response.json())
+                .then(data => {
                     this.setState({
                         name: data.name,
                         schedule: data.schedule
                     })
-                });
+                    })
         } else {
-            fetch(`http://profile/${attendeeId}`)
+            fetch(`http://localhost:5000/profile/${attendeeId}`, { method: 'GET' })
                 .then(response => response.json())
                 .then(data => {
                     this.setState({
                         name: data.name,
                         schedule: data.schedule
                     })
-                });
+                })
         }
-
-        // console.log("Name: ", this.state.name, "Schedule: " , this.state.schedule);
-// TEST
-        // this.setState({
-        //     name: 'test user',
-        //     schedule: [[1,2], [3,4], [5,6]],
-        // }) 
-
-        // GET data from Mongo (does not work)
-                    // fetch("http://localhost:5000/profile/60aedbb9f859e10820fbed41", { mode: 'no-cors' }
-                    //     .then(response => {
-                    //         this.setState({ 
-                    //             name: response.data.name,
-                    //             schedule: response.data.schedule 
-                    //         })
-                    //     })
-                    //     .catch((error) => {
-                    //         console.log(error);
-                    //     })
-        // EDIT schedule
     }
 
     // Change name
     onChangeName(e) {
         // set value of name to value within textbox
         this.setState({
-            // name gets value from textbox
             name: e.target.value 
         });
     };
@@ -84,9 +65,32 @@ export default class EditProfile extends Component {
             name: this.state.name,
             schedule: this.state.schedule,
         }
+        console.log("Print current profile", profile);
 
-        console.log("Print current profiel", profile);
-
+        if(this.state.name === 'Host'){
+            fetch('http://localhost:5000/profile/update/60af0a9db7a86c365cf1aaa3', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: this.state.name,
+                    schedule: this.state.schedule
+                })
+            })
+            .then( response => response.json())
+            .then( data => console.log(data));
+        } else {
+            fetch('http://localhost:5000/profile/update/60af0ae8b7a86c365cf1aaa4',
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: this.state.name,
+                    schedule: this.state.schedule
+                })
+            })
+            .then( response => response.json())
+            .then( json => console.log(json));
+        }
         // take user back to home page
         if(window.confirm("Setting saved! Go to home page?")){
             window.location = '/home';
@@ -106,6 +110,7 @@ export default class EditProfile extends Component {
             clear_schedule.splice(0, clear_schedule.length)
             this.setState({ schedule: clear_schedule });
             console.log("Cleared Schedule!" + this.state.schedule);
+            document.querySelector('#schedule-list').setAttribute('id', 'hide-schedule');
         } else {
             console.log("Do not clear!");
         }
@@ -135,7 +140,7 @@ export default class EditProfile extends Component {
             alert("End time must be past start time!");
         // GET input and PUT in schedule
         } else if (first < second){
-            let validTime = false;
+            let validTime = true;
             // CHECK if valid time
             validTime = this.state.schedule.map((time) =>{
                 let scheduleFrame = range(time[0],time[1]);
@@ -150,7 +155,7 @@ export default class EditProfile extends Component {
                 return false;
             })
             // if valid Time
-            if(!validTime){
+            if(validTime){
                 let something = [];
                 something[0] = first;
                 something[1] = second;
@@ -220,11 +225,9 @@ export default class EditProfile extends Component {
     render() {
         return ( 
         <div>
-            <h1>Edit Profile PAGE!</h1>
-            {/* Calling onSubmit to sumit form*/}
-            <form onSubmit={this.onSubmit}>
+            <h1>Edit Profile</h1>
                 <div className="form-group">
-                    <label>Name: </label>
+                    <label className="name">Name: </label>
                     {/* Contains drop down of users*/}
                     <input 
                         required
@@ -236,33 +239,32 @@ export default class EditProfile extends Component {
                 {/* Make a list of all schedule of user*/}
                 <div className="form-group">
                     <label className="schedule">Schedule (in hours): </label>
-                    <ul>
+                    <ul id="schedule-list">
                         {this.displaySchedule()}
                     </ul>
                     {/* Adding time slot */}
                     <div>
-                        <label for="add-startTime">Start Time: </label>
-                        <input id="add-startTime" type="time" step="3600000"/>
-                        <label for="add-endTime">End Time: </label>
-                        <input id="add-endTime" type="time" step="3600000"/>
-                        <input type="submit" onClick={this.addToSchedule} value="Add Time Slot" className="btn btn-add" />
+                        <label id="add-label"for="add-startTime">Start Time: </label>
+                        <input id="add-startTime" type="time" step="any"/>
+                        <label id="add-label" for="add-endTime">End Time: </label>
+                        <input id="add-endTime" type="time" step="any"/>
+                        <input id="add-time" type="submit" onClick={this.addToSchedule} value="Add Time Slot" className="btn btn-add" />
                     </div>
                     {/* Deleting time slot */}
                     <div>
-                        <label for="del-startTime">Start Time: </label>
-                        <input id="del-startTime" type="time" step="3600000"/>
-                        <label for="del-endTime">End Time: </label>
-                        <input id="del-endTime" type="time" step="3600000"/>
-                        <input type="submit" onClick={this.deleteFromSchedule} value="Delete Time Slot" className="btn btn-delete" />
+                        <label id="del-label" for="del-startTime">Start Time: </label>
+                        <input id="del-startTime" type="time" step="any"/>
+                        <label id="del-label" for="del-endTime">End Time: </label>
+                        <input id="del-endTime" type="time" step="any"/>
+                        <input id="delete-time" type="submit" onClick={this.deleteFromSchedule} value="Delete Time Slot" className="btn btn-delete" />
                     </div>
                     <div>
-                        <button type="button" onClick={this.onClearSchedule}>Clear Schedule</button>
+                        <button id="clear-all" type="button" onClick={this.onClearSchedule}>Clear Schedule</button>
                     </div>
                 </div>
                 <div>
-                    <input type="submit" value="Confirm Edit" className="btn btn-confirm"/>
+                    <input onClick={this.onSubmit} type="submit" value="Confirm Edit" className="btn btn-confirm"/>
                 </div>
-            </form>
         </div>
         )
     }

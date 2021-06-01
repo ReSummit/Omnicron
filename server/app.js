@@ -2,7 +2,13 @@ const express = require('express');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+<<<<<<< HEAD
 const cors = require("cors");
+=======
+const cors = require('cors');
+
+
+>>>>>>> 8b2742763b3ce942637eac49c0c421b15c0dbb03
 
 // Routes
 const eventsRouter = require('./routes/events');
@@ -17,6 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
+app.use(cors());
 app.use('/events', eventsRouter);
 app.use('/users', usersRouter);
 app.use('/api', apiRouter);
