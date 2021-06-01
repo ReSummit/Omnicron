@@ -19,11 +19,14 @@ class CalendarSlot extends React.Component {
     }
 
     render() {
-        let className = "calSlot disable-text-selection" + (this.props.selected ? " selected" : "");
+        let className = "calSlot disable-text-selection" + 
+                            ( this.props.selected ? " selected" : "" ) + 
+                            ( this.props.id % this.props.numColSlots == this.props.numColSlots - 1 ? 
+                                " bottom" : "");
         return(
             <div className={className} 
                 onMouseOver={(e) => this.onMouseOver(e)}
-                onMouseLeave={(e) => this.onMouseLeave(e)}>{this.props.id}</div>
+                onMouseLeave={(e) => this.onMouseLeave(e)} />
         );
     }
 }
@@ -73,22 +76,45 @@ class CalendarEdit extends React.Component {
     }
 
     alertMouseOver = ( id ) => {
-        console.log(id);
         let temp = this.state.mouseOverID;
         let copySelected = this.state.selected;
         temp.push(id);
         
         // Update element dragged over
-
         if ( this.state.dragging ) {
+            /* 
+                This for loop is complex, so I'll go over it.
+                The only thing we need to figure out is the number of columns spanned
+                With this, we can also figure out the number of rows by subtracting:
+                    id - (numCols * numSegments)
+                Thus, we have our bounding box. As we find the column, we are guaranteed to
+                change the first row at least, so we'll change that. Afterwards, we gotta go through
+                the other cells.
+
+                Also, check if the columns go left or right by checking startID and the id var
+            */ 
             let colLen = Math.trunc(Math.abs(this.props.timeRange[1] - this.props.timeRange[0])) * this.state.timeDiv;
-            
+            let startCol = 0;
+            let endCol = 0;
             for (let i = 0; i < this.props.dayList.length; i++) {
-                copySelected[i * colLen] = this.state.dragStartState;
-                if ( i * colLen > id ) {
-                    for (let j = (i - 1) * colLen; j < id + 1; j++) {
-                        copySelected[j] = this.state.dragStartState;
-                    }
+                if ( this.state.startDragId > colLen * i ) {
+                    startCol = i;
+                }
+                if ( id > colLen * i ) {
+                    endCol = i;
+                }
+            }
+            
+            let colNumDelta = endCol - startCol;
+            let projColNum = (this.state.startDragId + (colNumDelta * colLen));
+            let rowNumDelta = id - projColNum;
+            
+            // Top / Bottom right drag
+            for ( let i = 0; i <= Math.abs(colNumDelta); i++ ) {
+                for ( let j = 0; j <= Math.abs(rowNumDelta); j++ ) {
+                    let curColSlot = this.state.startDragId + ((colNumDelta == 0 ? 1 : Math.sign(colNumDelta)) * i * colLen);
+                    let curRowSlot = curColSlot + (rowNumDelta == 0 ? 1 : Math.sign(rowNumDelta)) * j;
+                    copySelected[curRowSlot] = this.state.dragStartState;
                 }
             }
         } 
@@ -99,7 +125,6 @@ class CalendarEdit extends React.Component {
     }
 
     alertMouseLeave = ( id ) => {
-        console.log(id);
         let temp = this.state.mouseOverID;
         let index = temp.indexOf(id);
         if (index > -1) {
@@ -117,6 +142,8 @@ class CalendarEdit extends React.Component {
             console.log(this.state.mouseOverID);
             this.setState({
                 dragging: true,
+                startDragId: this.state.mouseOverID[0],
+                dragStartState: copySelected[this.state.mouseOverID[0]],
                 selected: copySelected
             });
             document.addEventListener(
@@ -141,7 +168,8 @@ class CalendarEdit extends React.Component {
                           viewOnly={this.props.viewOnly} 
                           alertMouseOver={this.alertMouseOver}
                           alertMouseLeave={this.alertMouseLeave}
-                          selected={this.state.selected[i]}/>
+                          selected={this.state.selected[i]}
+                          numColSlots={numSegments / this.props.dayList.length}/>
         );
         let display = 
             this.props.dayList.map((item, index) => {

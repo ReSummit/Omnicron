@@ -39,17 +39,15 @@ export default class HomePage extends React.Component{
     }
     
     return (
-      <div>
+      <div class="home_flex_container">
         <div class="split left">
-          <div class="event-list">
-            <h1>{this.state.name}'s Events</h1>
-            <p>{events}</p>
-          </div>
+          <h1 class="eventLabel">My Events</h1>
+          <div class="eventList">{events}</div>
         </div>
 
         <div class="split right">
           <div class="centered">
-            <CalendarEdit dayList={[1, 2, 3, 4, 5]} timeRange={[9, 22]}/>
+            <CalendarEdit dayList={[1, 2, 3, 4, 5]} timeRange={[9, 22]} />
           </div>
         </div>
       </div>
