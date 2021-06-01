@@ -4,6 +4,7 @@ import 'antd/dist/antd.css';
 import { Form, Input, Button, Checkbox, DatePicker, TimePicker } from 'antd';
 import moment from 'moment';
 import './AddEvents.css';
+import Title from 'antd/lib/skeleton/Title';
 
 const layout = {
     labelCol: {
@@ -59,25 +60,38 @@ class AddEvents extends React.Component {
     callAPI() {
         // Needs variable to handle profile and groups
         // Either entered manually or through the profiles page
-        fetch("http://localhost:5000/add", {
+        fetch("http://localhost:5000/events/add", {
             method: "POST",
-
+                
             body: JSON.stringify({
-                eventName: this.eventName,
+                name: this.eventName,
                 repeating: this.repeating,
-                people: this.people,
+                people: [
+                    {
+                        profile: "60b176f28ae12e6144722883",
+                        confirmed: false,
+                        host: true
+                    }]
+                ,
                 time: {
                     start: this.state.beginTime,
                     end: this.state.endTime
                 }, 
                 decided: this.decided
             }),
-        })
+        }).then(res => res.json())
+        .then(res => console.log(res));
     }
 
     onFinish = (values) => {
         console.log('Success:', values);
-        console.log(values)
+        console.log(values);
+        this.eventName = values.title;
+        this.repeating = values.repeat;
+        console.log(this.eventName)
+        console.log(this.state.beginTime)
+        console.log(this.state.endTime)
+        this.callAPI();
         this.handleCloseModal();
       };
     
@@ -103,7 +117,7 @@ class AddEvents extends React.Component {
                     {...layout}
                     name="basic"
                     initialValues={{
-                        remember: true,
+                        repeat: false,
                     }}
                     onFinish={this.onFinish}
                     onFinishFailed={this.onFinishFailed}
@@ -122,26 +136,29 @@ class AddEvents extends React.Component {
                         <Input placeholder= "Add event title" />
                     </Form.Item>
 
-                    <Form.Item>
+                    <Form.Item name="date">
                         <DatePicker 
                             popupClassName="timepicker" 
                             defaultValue={moment()}
                         />
+                        {/* FOR NOW CHANGE END TIME FIRST */}
                         <RangePicker className="timepicker" defaultValue={[moment().minute(roundedUp).second(0), moment().minute(roundedUp).add(30, "minutes").second(0)]} format="HH:mm"
                             // Code to select and update time without pressing ok. UNFINISHED
                             // Default values only work if you open up and press okay
+                            // Changing start time to a bigger value than end time causes end time to be replaced with the new value instead of start time changing
+                            // and end time updating to (30 minutes + start time)                    
+                            
                             onOk={(value) => {;;
                                 //This changes the times to string format 
                                 //this.setState({beginTime: moment(value[0]).format("HH:mm")});
                                 //this.setState({endTime: moment(value[1]).format("HH:mm")});
                                 this.setState({beginTime: value[0].valueOf()});
-                                this.setState({endTime: value[0].valueOf()});
+                                this.setState({endTime: value[1].valueOf()});
                             }}
-                        format={timeFormat} minuteStep={15}
+                            format={timeFormat} minuteStep={15}
                         />
                     </Form.Item>
-
-                    <Form.Item {...tailLayout} name="Repeat" valuePropName="checked">
+                    <Form.Item {...tailLayout} name="repeat" valuePropName="checked">
                         <Checkbox>Repeat</Checkbox>
                     </Form.Item>
 

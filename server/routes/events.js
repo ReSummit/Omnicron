@@ -43,7 +43,7 @@ router.post('/add', async function(req, res) {
     }
   }
   else {
-      res.status(400).json('Error: ' + err);
+      res.status(400).json('Error: missing values :' + err);
   }
 });
 
