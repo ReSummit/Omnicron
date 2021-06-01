@@ -32,6 +32,9 @@ export default class HomePage extends React.Component{
 
     for(var i = 0; i < this.state.eventList.length; i++){
       var obj = this.state.eventList[i];
+      if(!obj.event){
+        continue;
+      }
       events.push(<EventCard name={obj.event.name} time={obj.event.time} repeating={obj.event.repeating} host={obj.host}/>)
     }
     

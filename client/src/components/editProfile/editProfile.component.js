@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './editProfile.css';
-import axios from 'axios';
+//import axios from 'axios';
 
 export default class EditProfile extends Component {
     constructor(props) {
