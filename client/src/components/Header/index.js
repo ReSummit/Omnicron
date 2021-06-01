@@ -29,7 +29,6 @@ export default class Header extends React.Component {
                         <Link to="/home" class="header-link">Home</Link>
                         <Link to="/editProfile" class="header-link">Edit Profile</Link>
                         <a href="/home" class="header-link">Logout</a> {/* TEMP href */}
-
                     </div>
             </div>
         );

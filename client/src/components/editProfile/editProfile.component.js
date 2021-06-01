@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './editProfile.css';
 import axios from 'axios';
+
 export default class EditProfile extends Component {
     constructor(props) {
         super(props);
@@ -20,39 +21,30 @@ export default class EditProfile extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    // TEST Right before page loads, this will load
+    // Right before page loads, this will load
     componentDidMount() {
         // GET data from mongo
         let host = true;
         const attendeeId = "60af0ae8b7a86c365cf1aaa4";
         const hostId = "60af0a9db7a86c365cf1aaa3";
         if (host) {
-            // fetch("http://localhost:5000/profile/60af0a9db7a86c365cf1aaa3", { method: 'GET' })
-            //     .then(response => {
-            //         console.log(response.json());
-            //         if (response.data.length > 0) {
-            //             this.setState({
-            //                 name: response.data.name,
-            //                 schedule: response.data.schedule
-            //             });
-            //         }
-            //     })
-            axios.get(`http://localhost:5000/profile/${hostId}`)
-                .then(response => {
-                        this.setState({
-                            name: response.data.name,
-                            schedule: response.data.schedule
-                        })
-                });
+            fetch(`http://localhost:5000/profile/${hostId}`, { method: 'GET' } )
+                .then(response =>  response.json())
+                .then(data => {
+                    this.setState({
+                        name: data.name,
+                        schedule: data.schedule
+                    })
+                    })
         } else {
-            fetch(`/profile/${attendeeId}`)
+            fetch(`http://localhost:5000/profile/${attendeeId}`, { method: 'GET' })
                 .then(response => response.json())
                 .then(data => {
                     this.setState({
                         name: data.name,
                         schedule: data.schedule
                     })
-                });
+                })
         }
     }
 
@@ -60,7 +52,6 @@ export default class EditProfile extends Component {
     onChangeName(e) {
         // set value of name to value within textbox
         this.setState({
-            // name gets value from textbox
             name: e.target.value 
         });
     };
@@ -74,20 +65,32 @@ export default class EditProfile extends Component {
             name: this.state.name,
             schedule: this.state.schedule,
         }
-        if(this.state.name === 'Host'){
-            axios.post('http://localhost:5000/update/60af0a9db7a86c365cf1aaa3', {
-                name: this.state.name,
-                schedule: this.state.schedule
-            }).then(res => console.log(res.data));
-        } else {
-            axios.post('http://localhost:5000/update/60af0ae8b7a86c365cf1aaa4', {
-                name: this.state.name,
-                schedule: this.state.schedule
-            }).then(res => console.log(res.data));
-        }
-
         console.log("Print current profile", profile);
 
+        if(this.state.name === 'Host'){
+            fetch('http://localhost:5000/profile/update/60af0a9db7a86c365cf1aaa3', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: this.state.name,
+                    schedule: this.state.schedule
+                })
+            })
+            .then( response => response.json())
+            .then( data => console.log(data));
+        } else {
+            fetch('http://localhost:5000/profile/update/60af0ae8b7a86c365cf1aaa4',
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: this.state.name,
+                    schedule: this.state.schedule
+                })
+            })
+            .then( response => response.json())
+            .then( json => console.log(json));
+        }
         // take user back to home page
         if(window.confirm("Setting saved! Go to home page?")){
             window.location = '/home';

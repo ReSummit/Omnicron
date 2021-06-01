@@ -39,7 +39,7 @@ router.post('/update/:id', function (req, res) {
                 profile.schedule = req.body.schedule;
 
                 profile.save()
-                    .then(() => res.status(200).json({ status: 'Exercise updated!' }))
+                    .then(() => res.status(200).json({ status: 'Profile updated!' }))
                     .catch(err => res.status(400).json('Error: ' + err));
             })
             .catch(err => res.status(400).json('Error: ' + err));
