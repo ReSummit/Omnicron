@@ -156,6 +156,7 @@ class CalendarEdit extends React.Component {
         document.removeEventListener(
             "mouseup", this.endDrag                
         ); 
+        this.props.dataReturn(this.state.selected);
         this.setState({
             dragging: false
         });
