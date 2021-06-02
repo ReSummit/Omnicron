@@ -19,6 +19,12 @@
     font-weight:700;
 }
 
+#change-user{
+    margin-left: 20px;
+    background-color: rgb(70, 243, 70);
+    border-radius: 5px;
+}
+
 .schedule{
     margin-bottom: 10px;
     font-weight: 700;
@@ -63,7 +69,9 @@
 
 .btn-add:hover,
 .btn-delete:hover,
-#clear-all:hover {
+#clear-all:hover,
+#change-user:hover,
+.btn-confirm:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
 }
 

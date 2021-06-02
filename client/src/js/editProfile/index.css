@@ -7,3 +7,7 @@
     flex: 3em 3em 100%;
     padding-top: 2rem;
 }
+
+.profContainer > div {
+    margin: 45px;
+}

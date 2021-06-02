@@ -24,28 +24,30 @@ export default class EditProfile extends Component {
     // Right before page loads, this will load
     componentDidMount() {
         // GET data from mongo
-        let host = true;
         const attendeeId = "60af0ae8b7a86c365cf1aaa4";
         const hostId = "60af0a9db7a86c365cf1aaa3";
-        if (host) {
+        const user = document.querySelector("#names").value;
+        if (user === "Host") {
             fetch(`http://localhost:5000/profile/${hostId}`, { method: 'GET' } )
                 .then(response =>  response.json())
                 .then(data => {
                     this.setState({
-                        name: data.name,
+                        name: user,
                         schedule: data.schedule
                     })
                     })
+        // Else user = "Attendee"
         } else {
             fetch(`http://localhost:5000/profile/${attendeeId}`, { method: 'GET' })
                 .then(response => response.json())
                 .then(data => {
                     this.setState({
-                        name: data.name,
+                        name: user,
                         schedule: data.schedule
                     })
                 })
         }
+        console.log(user);
     }
 
     // Change name
@@ -54,6 +56,8 @@ export default class EditProfile extends Component {
         this.setState({
             name: e.target.value 
         });
+        console.log("Name changed to: ", this.state.name);
+        this.componentDidMount();
     };
 
     // Submit changes
@@ -229,12 +233,15 @@ export default class EditProfile extends Component {
                 <div className="form-group">
                     <label className="name">Name: </label>
                     {/* Contains drop down of users*/}
-                    <input 
+                    <select 
+                        name="names"
+                        id="names"
                         required
-                        className="form-control"
-                        value={this.state.name}
-                        onChange={this.onChangeName}>
-                    </input>
+                        className="form-control">
+                        <option value="Host">Host</option>
+                        <option value="Attendee">Attendee</option>
+                    </select>
+                    <button id="change-user" type="button" onClick={this.onChangeName}>Switch User</button>
                 </div>
                 {/* Make a list of all schedule of user*/}
                 <div className="form-group">
