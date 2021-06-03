@@ -2,7 +2,7 @@ import React from 'react';
 import './user_home.css';
 import CalendarEdit from '../../components/CalendarEdit';
 import EventCard from '../../components/EventCard/EventCard'; 
-
+import AddEvents from '../../components/AddEvents';
 export default class HomePage extends React.Component{
 
   constructor(props) {
@@ -48,6 +48,8 @@ export default class HomePage extends React.Component{
         <div class="split right">
           <div class="centered">
             <CalendarEdit dayList={[1, 2, 3, 4, 5, 6, 7]} timeRange={[9, 22]} />
+            <br></br>
+            <AddEvents/>
           </div>
         </div>
       </div>

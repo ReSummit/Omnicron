@@ -110,7 +110,7 @@ class AddEvents extends React.Component {
     render(){
         return(
             <div>
-            <button onClick={this.handleOpenModal}>Trigger Modal</button>
+            <button onClick={this.handleOpenModal}>Add New Event</button>
             <Modal
                 visible={this.state.showModal} 
                 okText="Submit"
