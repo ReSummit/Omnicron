@@ -47,7 +47,7 @@ export default class HomePage extends React.Component{
 
         <div class="split right">
           <div class="centered">
-            <CalendarEdit dayList={[1, 2, 3, 4, 5, 6, 7]} timeRange={[9, 22]} />
+            <CalendarEdit dayList={[1, 2, 3, 4, 5, 6, 7]} timeRange={[9, 22]} dataReturn={(array) => {}}/>
             <br></br>
             <AddEvents/>
           </div>
