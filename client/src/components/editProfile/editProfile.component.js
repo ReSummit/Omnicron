@@ -47,7 +47,7 @@ export default class EditProfile extends Component {
                     })
                 })
         }
-        console.log(user);
+        console.log(`User Changed to: ${user}`);
     }
 
     // Change name
@@ -56,7 +56,6 @@ export default class EditProfile extends Component {
         this.setState({
             name: e.target.value 
         });
-        console.log("Name changed to: ", this.state.name);
         this.componentDidMount();
     };
 
