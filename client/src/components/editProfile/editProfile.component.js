@@ -227,7 +227,7 @@ export default class EditProfile extends Component {
 
     render() {
         return ( 
-        <div class="editProfComponent">
+        <div className="editProfComponent">
             <h1>Edit Profile</h1>
                 <div className="form-group">
                     <label className="name">Name: </label>
@@ -245,24 +245,24 @@ export default class EditProfile extends Component {
                 {/* Make a list of all schedule of user*/}
                 <div className="form-group">
                     <label className="schedule">Schedule (in hours): </label>
-                    <div class="some-list">
+                    <div className="some-list">
                         <ul id="schedule-list">
                             {this.displaySchedule()}
                         </ul>
                     </div>
                     {/* Adding time slot */}
                     <div>
-                        <label id="add-label"for="add-startTime">Start Time: </label>
+                        <label id="add-label"htmlFor="add-startTime">Start Time: </label>
                         <input id="add-startTime" type="time" step="any"/>
-                        <label id="add-label" for="add-endTime">End Time: </label>
+                        <label id="add-label" htmlFor="add-endTime">End Time: </label>
                         <input id="add-endTime" type="time" step="any"/>
                         <input id="add-time" type="submit" onClick={this.addToSchedule} value="Add Time Slot" className="btn-add" />
                     </div>
                     {/* Deleting time slot */}
                     <div>
-                        <label id="del-label" for="del-startTime">Start Time: </label>
+                        <label id="del-label" htmlFor="del-startTime">Start Time: </label>
                         <input id="del-startTime" type="time" step="any"/>
-                        <label id="del-label" for="del-endTime">End Time: </label>
+                        <label id="del-label" htmlFor="del-endTime">End Time: </label>
                         <input id="del-endTime" type="time" step="any"/>
                         <input id="delete-time" type="submit" onClick={this.deleteFromSchedule} value="Delete Time Slot" className="btn-delete" />
                     </div>

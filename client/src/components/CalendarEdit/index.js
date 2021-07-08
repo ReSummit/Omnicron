@@ -177,12 +177,12 @@ class CalendarEdit extends React.Component {
                 let endCalc = numSegments / this.props.dayList.length;
                 let slice = calObjs.slice(index * endCalc, index * endCalc + endCalc );
 
-                return(<div class="calCol"
+                return(<div className="calCol"
                             onMouseDown={this.startDrag}>{slice}</div>);
             });
 
         return(
-            <div class="calSelection">
+            <div className="calSelection">
                 {display}
             </div>
         );

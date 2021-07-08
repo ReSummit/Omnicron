@@ -11,12 +11,12 @@ import CalendarEdit from '../../components/CalendarEdit'
 
 function editProfile(){
     return(
-        <div class="profContainer">
+        <div className="profContainer">
             <div>
-                <EditProfile class="edits" />
+                <EditProfile className="edits" />
             </div>
             <div>
-                <CalendarEdit class="calendar" dayList={[1, 2, 3, 4, 5, 6, 7]} timeRange={[0, 23]} dataReturn={(array) => {}} />
+                <CalendarEdit className="calendar" dayList={[1, 2, 3, 4, 5, 6, 7]} timeRange={[0, 23]} dataReturn={(array) => {}} />
             </div>
         </div>
     );
