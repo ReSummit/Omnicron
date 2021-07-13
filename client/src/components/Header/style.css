@@ -19,7 +19,7 @@
 }
 
 .header-link {
-    padding: 1em 5em;
+    padding: 1em 3em;
     font-weight: normal;
     margin: 0 2em 2em 0;
     outline: none;
@@ -35,7 +35,7 @@
 }
 
 .header-contents {
-    width: 100%;
+    width: fit-content;
     position: relative;
     top: 3em;
     left: 2em;
