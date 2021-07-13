@@ -22,7 +22,8 @@ class CalendarSlot extends React.Component {
         let className = "calSlot disable-text-selection" + 
                             ( this.props.selected ? " selected" : "" ) + 
                             ( this.props.id % this.props.numColSlots == this.props.numColSlots - 1 ? 
-                                " bottom" : "");
+                                " bottom" : "") +
+                            ( this.props.visHour ? "" : " midHour" );
         return(
             <div className={className} 
                 onMouseOver={(e) => this.onMouseOver(e)}
@@ -170,14 +171,17 @@ class CalendarEdit extends React.Component {
                           alertMouseOver={this.alertMouseOver}
                           alertMouseLeave={this.alertMouseLeave}
                           selected={this.state.selected[i]}
-                          numColSlots={numSegments / this.props.dayList.length}/>
+                          numColSlots={numSegments / this.props.dayList.length}
+                          visHour={i % this.state.timeDiv == 0}/>
         );
         let display = 
             this.props.dayList.map((item, index) => {
                 let endCalc = numSegments / this.props.dayList.length;
                 let slice = calObjs.slice(index * endCalc, index * endCalc + endCalc );
+                let className = "calCol disable-text-selection" +
+                                    ( item + 1 == this.props.dayList[index + 1] ? "" : " separateDay" );
 
-                return(<div className="calCol"
+                return(<div className={className}
                             onMouseDown={this.startDrag}>{slice}</div>);
             });
 

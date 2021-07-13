@@ -16,7 +16,7 @@ function editProfile(){
                 <EditProfile className="edits" />
             </div>
             <div>
-                <CalendarEdit className="calendar" dayList={[1, 2, 3, 4, 5, 6, 7]} timeRange={[0, 23]} dataReturn={(array) => {}} />
+                <CalendarEdit className="calendar" dayList={[1, 2, 3, 4, 5, 6, 9]} timeRange={[0, 23]} dataReturn={(array) => {}} />
             </div>
         </div>
     );
