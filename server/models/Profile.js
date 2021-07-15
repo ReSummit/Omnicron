@@ -2,8 +2,19 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ProfileSchema = new Schema({
-    name: String,
-    schedule: [[Number, Number]],
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: false,
+    },
+    schedule: [Number],
     events: [{
       event: {
         type: mongoose.Schema.Types.ObjectId,
