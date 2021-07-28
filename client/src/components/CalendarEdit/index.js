@@ -1,6 +1,8 @@
 import React from "react";
 import './style.css';
 
+let daysOfWeek = ["Sun.", "Mon.", "Tues.", "Wed.", "Thurs.", "Fri.", "Sat."]
+
 class CalendarSlot extends React.Component {
     constructor(props) {
         super(props);
@@ -180,6 +182,10 @@ class CalendarEdit extends React.Component {
                                             this.props.dayList[Math.floor(i / numColSegs)] != this.props.dayList[Math.floor(i / numColSegs) - 1] + 1 ) }/>
             }  
         );
+        let date = this.props.dayList.map((item) => {
+            let temp = new Date(item);
+            return daysOfWeek[temp.getDay()] + " " + temp.getDate() + "\n" + temp.getFullYear();
+        });
         let display = 
             this.props.dayList.map((item, index) => {
                 let endCalc = numSegments / this.props.dayList.length;
@@ -189,13 +195,16 @@ class CalendarEdit extends React.Component {
 
                 return(<div className={className}
                             onMouseDown={this.startDrag}>
+                                <h4 className="dateLabel">{date[index]}</h4>
                                 {slice}    
                         </div>);
             });
 
         return(
-            <div className="calSelection">
-                {display}
+            <div className="calHolder">
+                <div className="calSelection">
+                    {display}
+                </div>
             </div>
         );
     }

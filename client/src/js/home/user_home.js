@@ -37,6 +37,17 @@ export default class HomePage extends React.Component{
       }
       events.push(<EventCard name={obj.event.name} time={obj.event.time} repeating={obj.event.repeating} host={obj.host}/>)
     }
+
+    let daysOfWeek = [0, 1, 2, 3, 4, 5, 6];
+    let now = Date.now();
+    let unixTimes = daysOfWeek.map((item, index) => {
+      if ( item == 0 ) {
+        return now;
+      }
+      else {
+        return now + item * 86400000;
+      }
+    });
     
     return (
       <div class="home_flex_container">
@@ -47,7 +58,7 @@ export default class HomePage extends React.Component{
 
         <div class="split right">
           <div class="centered">
-            <CalendarEdit dayList={[1, 2, 3, 4, 8, 9, 11]} timeRange={[9, 22]} dataReturn={(array) => {}}/>
+            <CalendarEdit dayList={unixTimes} timeRange={[9, 22]} dataReturn={(array) => {}}/>
             <br></br>
             <AddEvents/>
           </div>

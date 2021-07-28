@@ -20,9 +20,5 @@
 
 .split.right { 
   position: relative;
-  margin-right: 0px;
-}
-
-.centered {
-  
+  flex-grow: 1;
 }
